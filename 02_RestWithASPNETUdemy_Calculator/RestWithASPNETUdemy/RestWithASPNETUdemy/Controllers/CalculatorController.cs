@@ -30,8 +30,8 @@ namespace RestWithASPNETUdemy.Controllers
         }
 
 
-        [HttpGet("sub/{firstNumber}/{secondNumber}")]
-        public IActionResult Sub(string firstNumber, string secondNumber)
+        [HttpGet("subtration/{firstNumber}/{secondNumber}")]
+        public IActionResult Subtration(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
@@ -41,8 +41,8 @@ namespace RestWithASPNETUdemy.Controllers
             return BadRequest("Invalid Input");
         }
 
-        [HttpGet("mult/{firstNumber}/{secondNumber}")]
-        public IActionResult Mult(string firstNumber, string secondNumber)
+        [HttpGet("multiplication/{firstNumber}/{secondNumber}")]
+        public IActionResult Multiplication(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
@@ -52,8 +52,8 @@ namespace RestWithASPNETUdemy.Controllers
             return BadRequest("Invalid Input");
         }
 
-        [HttpGet("div/{firstNumber}/{secondNumber}")]
-        public IActionResult Div(string firstNumber, string secondNumber)
+        [HttpGet("division/{firstNumber}/{secondNumber}")]
+        public IActionResult Division(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
@@ -70,8 +70,8 @@ namespace RestWithASPNETUdemy.Controllers
             return BadRequest("Invalid Input");
         }
 
-        [HttpGet("med/{firstNumber}/{secondNumber}")]
-        public IActionResult Med(string firstNumber, string secondNumber)
+        [HttpGet("media/{firstNumber}/{secondNumber}")]
+        public IActionResult Media(string firstNumber, string secondNumber)
         {
             if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
