@@ -8,12 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RestWithASPNETUdemy.Model.Context;
-using RestWithASPNETUdemy.Services;
-using RestWithASPNETUdemy.Services.Implementations;
+using RestWithASPNETUdemy.Business;
+using RestWithASPNETUdemy.Business.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestWithASPNETUdemy.Repository;
+using RestWithASPNETUdemy.Repository.Implementations;
 
 namespace RestWithASPNETUdemy
 {
@@ -34,7 +36,10 @@ namespace RestWithASPNETUdemy
             // PARA CONEXÃO COM BANCO DE DADOS
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
-            services.AddScoped<IPersonService, PersonServiceImplementation>(); //Injeção de Dependencia
+
+            //Injeção de Dependencia
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
             // VERSIONAMENTO DA API
             services.AddApiVersioning();
