@@ -31,12 +31,13 @@ namespace RestWithASPNETUdemy
         {
             services.AddControllers();
 
+            // PARA CONEXÃO COM BANCO DE DADOS
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
-
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
+            services.AddScoped<IPersonService, PersonServiceImplementation>(); //Injeção de Dependencia
 
-            //Dependency Injection
-            services.AddScoped<IPersonService, PersonServiceImplementation>();
+            // VERSIONAMENTO DA API
+            services.AddApiVersioning();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
