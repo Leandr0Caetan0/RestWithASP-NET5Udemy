@@ -15,9 +15,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestWithASPNETUdemy.Repository;
-using RestWithASPNETUdemy.Repository.Implementations;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Migrations;
+using RestWithASPNETUdemy.Repository.Generic;
 
 namespace RestWithASPNETUdemy
 {
@@ -51,9 +51,11 @@ namespace RestWithASPNETUdemy
 
             //Injeção de Dependencia
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
             services.AddScoped<IBooksBusiness, BooksBusinessImplementation>();
-            services.AddScoped<IBooksRepository, BooksRepositoryImplementation>();
+
+            //Injeção de Dependencia - Repositório Genérico
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
 
             // VERSIONAMENTO DA API
             services.AddApiVersioning();

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using RestWithASPNETUdemy.Model.Base;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestWithASPNETUdemy.Model
 {
     [Table("books")]
-    public class Books
+    public class Books : BaseEntity
     {
-        [Column("id")]
-        public long Id { get; set; }
         [Column("author")]
         public string Author { get; set; }
         [Column("launch_date")]

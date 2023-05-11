@@ -16,7 +16,7 @@ namespace RestWithASPNETUdemy.Controllers
     {
         private readonly ILogger<BooksController> _logger;
 
-        //Declarando Serviço que será utilizado
+        //Declarando Serviço/Entidade que será utilizado - Books
         private IBooksBusiness _booksBusiness;
 
         public BooksController(ILogger<BooksController> logger, IBooksBusiness booksBusiness)
