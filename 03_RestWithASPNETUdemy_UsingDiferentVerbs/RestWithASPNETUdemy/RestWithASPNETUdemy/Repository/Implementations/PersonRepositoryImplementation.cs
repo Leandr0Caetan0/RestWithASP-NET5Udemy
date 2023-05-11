@@ -50,7 +50,8 @@ namespace RestWithASPNETUdemy.Repository.Implementations
         {
             if (!Exists(person.Id)) // VERIFICA SE O ID DA PESSOA NÃO EXISTE. "SE ESSA PESSOAL NÃO EXISTE..."
             {
-                return new Person(); // CRIA UMA NOVA PESSOA COM OS PARAMETROS PASSADOS VIA JSON
+                return null; // NÃO RETORNA NADA
+                //return new Person(); RETORNA UMA PESSOA COM DADOS NULOS
             }
 
             var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id)); // a Variavel result recebe o objeto "antigo"
