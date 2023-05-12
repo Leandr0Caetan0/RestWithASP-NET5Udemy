@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithASPNETUdemy.Model;
 using RestWithASPNETUdemy.Business;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RestWithASPNETUdemy.Data.VO;
 
 namespace RestWithASPNETUdemy.Controllers
 {
@@ -34,32 +30,32 @@ namespace RestWithASPNETUdemy.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            var book = _booksBusiness.FindByID(id);
-            if (book == null)
+            var bookVO = _booksBusiness.FindByID(id);
+            if (bookVO == null)
             {
                 return NotFound();
             }
-            return Ok(book);
+            return Ok(bookVO);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Books book)
+        public IActionResult Post([FromBody] BooksVO bookVO)
         {
-            if (book == null)
+            if (bookVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_booksBusiness.Create(book));
+            return Ok(_booksBusiness.Create(bookVO));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Books book)
+        public IActionResult Put([FromBody] BooksVO bookVO)
         {
-            if (book == null)
+            if (bookVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_booksBusiness.Update(book));
+            return Ok(_booksBusiness.Update(bookVO));
         }
 
         [HttpDelete("{id}")]

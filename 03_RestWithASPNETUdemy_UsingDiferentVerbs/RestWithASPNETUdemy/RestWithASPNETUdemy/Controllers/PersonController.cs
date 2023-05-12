@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithASPNETUdemy.Model;
 using RestWithASPNETUdemy.Business;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using RestWithASPNETUdemy.Data.VO;
 
 namespace RestWithASPNETUdemy.Controllers
 {
@@ -43,23 +39,23 @@ namespace RestWithASPNETUdemy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonVO personVO)
         {
-            if (person == null)
+            if (personVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_personBusiness.Create(person));
+            return Ok(_personBusiness.Create(personVO));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonVO personVO)
         {
-            if (person == null)
+            if (personVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_personBusiness.Update(person));
+            return Ok(_personBusiness.Update(personVO));
         }
 
         [HttpDelete("{id}")]

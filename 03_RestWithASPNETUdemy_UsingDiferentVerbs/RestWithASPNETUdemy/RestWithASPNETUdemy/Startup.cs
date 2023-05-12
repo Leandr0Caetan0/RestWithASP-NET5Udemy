@@ -1,23 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RestWithASPNETUdemy.Model.Context;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Business.Implementations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using RestWithASPNETUdemy.Repository;
 using Serilog;
-using Microsoft.EntityFrameworkCore.Migrations;
 using RestWithASPNETUdemy.Repository.Generic;
+using RestWithASPNETUdemy.Data.Converter.Contract;
+using RestWithASPNETUdemy.Data.Converter.Implementations;
+using RestWithASPNETUdemy.Data.VO;
+using RestWithASPNETUdemy.Model;
+using Microsoft.Net.Http.Headers;
 
 namespace RestWithASPNETUdemy
 {
@@ -52,10 +51,22 @@ namespace RestWithASPNETUdemy
             //Injeção de Dependencia
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBooksBusiness, BooksBusinessImplementation>();
+            /*services.AddScoped<IParser<BooksVO, Books>, BooksConverter>();
+            services.AddScoped<IParser<Books, BooksVO>, BooksConverter>();
+            services.AddScoped<IParser<PersonVO, Person>, PersonConverter>();
+            services.AddScoped<IParser<Person, PersonVO>, PersonConverter>();*/
 
             //Injeção de Dependencia - Repositório Genérico
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+            // Trabalhar com XML
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            }).AddXmlSerializerFormatters();
 
             // VERSIONAMENTO DA API
             services.AddApiVersioning();
