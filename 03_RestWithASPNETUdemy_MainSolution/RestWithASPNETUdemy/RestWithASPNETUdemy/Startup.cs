@@ -17,6 +17,9 @@ using RestWithASPNETUdemy.Data.Converter.Implementations;
 using RestWithASPNETUdemy.Data.VO;
 using RestWithASPNETUdemy.Model;
 using Microsoft.Net.Http.Headers;
+using RestWithASPNETUdemy.Hypermedia.Filters;
+using RestWithASPNETUdemy.Hypermedia.Enricher;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RestWithASPNETUdemy
 {
@@ -50,7 +53,7 @@ namespace RestWithASPNETUdemy
 
             //Injeção de Dependencia
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-            services.AddScoped<IBooksBusiness, BooksBusinessImplementation>();
+            services.AddScoped<IBookBusiness, BooksBusinessImplementation>();
             /*services.AddScoped<IParser<BooksVO, Books>, BooksConverter>();
             services.AddScoped<IParser<Books, BooksVO>, BooksConverter>();
             services.AddScoped<IParser<PersonVO, Person>, PersonConverter>();
@@ -59,14 +62,20 @@ namespace RestWithASPNETUdemy
             //Injeção de Dependencia - Repositório Genérico
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
-            // Trabalhar com XML
-            services.AddMvc(options =>
+            // Content Negociation
+            /*services.AddMvc(options =>
             {
                 options.RespectBrowserAcceptHeader = true;
 
                 options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
                 options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
-            }).AddXmlSerializerFormatters();
+            }).AddXmlSerializerFormatters();*/
+
+            //HATEOAS
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+            filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
+            services.AddSingleton(filterOptions);       
 
             // VERSIONAMENTO DA API
             services.AddApiVersioning();
@@ -89,6 +98,7 @@ namespace RestWithASPNETUdemy
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
 

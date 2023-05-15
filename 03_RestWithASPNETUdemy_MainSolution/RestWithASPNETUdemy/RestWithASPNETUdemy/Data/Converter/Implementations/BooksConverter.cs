@@ -6,16 +6,16 @@ using System.Linq;
 
 namespace RestWithASPNETUdemy.Data.Converter.Implementations
 {
-    public class BooksConverter : IParser<BooksVO, Books>, IParser<Books, BooksVO>
+    public class BooksConverter : IParser<BookVO, Book>, IParser<Book, BookVO>
     {
         // BooksVO para Books
-        public Books Parse(BooksVO origin)
+        public Book Parse(BookVO origin)
         {
             if (origin == null)
             {
                 return null;
             }
-            return new Books
+            return new Book
             {
                 Id = origin.Id,
                 Author = origin.Author,
@@ -25,7 +25,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
             };
         }
 
-        public List<Books> Parse(List<BooksVO> origin)
+        public List<Book> Parse(List<BookVO> origin)
         {
             if (origin == null)
             {
@@ -35,13 +35,13 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
         }
 
         // Books para BooksVO
-        public BooksVO Parse(Books origin)
+        public BookVO Parse(Book origin)
         {
             if (origin == null)
             {
                 return null;
             }
-            return new BooksVO
+            return new BookVO
             {
                 Id = origin.Id,
                 Author = origin.Author,
@@ -51,7 +51,7 @@ namespace RestWithASPNETUdemy.Data.Converter.Implementations
             };
         }
 
-        public List<BooksVO> Parse(List<Books> origin)
+        public List<BookVO> Parse(List<Book> origin)
         {
             if (origin == null)
             {

@@ -2,35 +2,38 @@
 using Microsoft.Extensions.Logging;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Data.VO;
+using RestWithASPNETUdemy.Hypermedia.Filters;
 
 namespace RestWithASPNETUdemy.Controllers
 {
     [ApiVersion("1")]
     [ApiController]
     [Route("api/[controller]/v{version:apiVersion}")]
-    public class BooksController : ControllerBase
+    public class BookController : ControllerBase
     {
-        private readonly ILogger<BooksController> _logger;
+        private readonly ILogger<BookController> _logger;
 
         //Declarando Serviço/Entidade que será utilizado - Books
-        private IBooksBusiness _booksBusiness;
+        private IBookBusiness _bookBusiness;
 
-        public BooksController(ILogger<BooksController> logger, IBooksBusiness booksBusiness)
+        public BookController(ILogger<BookController> logger, IBookBusiness booksBusiness)
         {
             _logger = logger;
-            _booksBusiness = booksBusiness;
+            _bookBusiness = booksBusiness;
         }
 
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get()
         {
-            return Ok(_booksBusiness.FindAll());
+            return Ok(_bookBusiness.FindAll());
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         public IActionResult Get(long id)
         {
-            var bookVO = _booksBusiness.FindByID(id);
+            var bookVO = _bookBusiness.FindByID(id);
             if (bookVO == null)
             {
                 return NotFound();
@@ -39,29 +42,31 @@ namespace RestWithASPNETUdemy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] BooksVO bookVO)
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Post([FromBody] BookVO bookVO)
         {
             if (bookVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_booksBusiness.Create(bookVO));
+            return Ok(_bookBusiness.Create(bookVO));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] BooksVO bookVO)
+        [TypeFilter(typeof(HyperMediaFilter))]
+        public IActionResult Put([FromBody] BookVO bookVO)
         {
             if (bookVO == null)
             {
                 return BadRequest();
             }
-            return Ok(_booksBusiness.Update(bookVO));
+            return Ok(_bookBusiness.Update(bookVO));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _booksBusiness.Delete(id);
+            _bookBusiness.Delete(id);
             return NoContent();
         }
     }

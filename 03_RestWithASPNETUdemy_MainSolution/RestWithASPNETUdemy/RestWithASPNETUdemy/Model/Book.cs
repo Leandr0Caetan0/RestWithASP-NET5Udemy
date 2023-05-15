@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RestWithASPNETUdemy.Model
 {
     [Table("books")]
-    public class Books : BaseEntity
+    public class Book : BaseEntity
     {
         [Column("author")]
         public string Author { get; set; }
