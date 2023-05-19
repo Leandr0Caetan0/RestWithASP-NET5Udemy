@@ -68,7 +68,7 @@ namespace RestWithASPNETUdemy.Repository.Generic
             {
                 return null;
             }
-            return item;
+            return itemToUpdate; // retorna o objeto "antigo" que agora foi atualizado na linha 59
         }
 
         public void Delete(long id)
