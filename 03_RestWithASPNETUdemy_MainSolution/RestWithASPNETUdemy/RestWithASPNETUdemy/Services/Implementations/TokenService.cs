@@ -11,21 +11,21 @@ namespace RestWithASPNETUdemy.Services.Implementations
 {
     public class TokenService : ITokenService
     {
-        private TokenConfiguration _Configuration;
+        private TokenConfiguration _configuration;
         public TokenService(TokenConfiguration tokenConfiguration) 
         {
-            _Configuration = tokenConfiguration;
+            _configuration = tokenConfiguration;
         }
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration.Secret)); // codifica a "MY_SUPER_SECRET_KEY", salva em secretKey
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret)); // codifica a "MY_SUPER_SECRET_KEY", salva em secretKey
             var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var options = new JwtSecurityToken(
-                issuer: _Configuration.Issuer,
-                audience: _Configuration.Audience,
+                issuer: _configuration.Issuer,
+                audience: _configuration.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(_Configuration.Minutes),
+                expires: DateTime.Now.AddMinutes(_configuration.Minutes),
                 signingCredentials: signInCredentials
             );
             string tokenString = new JwtSecurityTokenHandler().WriteToken(options);
@@ -47,14 +47,13 @@ namespace RestWithASPNETUdemy.Services.Implementations
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration.Secret)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.Secret)),
                 ValidateLifetime = false
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken securityToken;
 
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCulture))
             {

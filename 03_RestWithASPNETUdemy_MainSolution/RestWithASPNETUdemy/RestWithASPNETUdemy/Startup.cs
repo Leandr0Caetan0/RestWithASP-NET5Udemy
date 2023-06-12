@@ -22,6 +22,14 @@ using RestWithASPNETUdemy.Hypermedia.Enricher;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Rewrite;
+using RestWithASPNETUdemy.Services;
+using RestWithASPNETUdemy.Services.Implementations;
+using RestWithASPNETUdemy.Configurations;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestWithASPNETUdemy
 {
@@ -42,6 +50,34 @@ namespace RestWithASPNETUdemy
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // LOGIN / TOKEN E USER
+            var tokenConfigurations = new TokenConfiguration();
+            new ConfigureFromConfigurationOptions<TokenConfiguration>(Configuration.GetSection("TokenConfiguration")).Configure(tokenConfigurations);
+            services.AddSingleton(tokenConfigurations);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = tokenConfigurations.Issuer,
+                    ValidAudience = tokenConfigurations.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
+                };
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build());
+            });
+
             //CORS
             services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
@@ -66,9 +102,12 @@ namespace RestWithASPNETUdemy
             services.AddScoped<IParser<Books, BooksVO>, BooksConverter>();
             services.AddScoped<IParser<PersonVO, Person>, PersonConverter>();
             services.AddScoped<IParser<Person, PersonVO>, PersonConverter>();*/
+            services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+            services.AddTransient<ITokenService, TokenService>();
 
-            //Injeção de Dependencia - Repositório Genérico
+            //Injeção de Dependencia - Repositórios
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Content Negociation
             /*services.AddMvc(options =>
