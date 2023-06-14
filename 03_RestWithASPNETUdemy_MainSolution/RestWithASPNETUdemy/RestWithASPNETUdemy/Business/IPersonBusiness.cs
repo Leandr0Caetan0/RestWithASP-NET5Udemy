@@ -9,6 +9,7 @@ namespace RestWithASPNETUdemy.Business
         PersonVO FindByID(long id);
         List<PersonVO> FindAll();
         PersonVO Update(PersonVO personVO);
+        PersonVO Disable(long id);
         void Delete(long id);
     }
 }

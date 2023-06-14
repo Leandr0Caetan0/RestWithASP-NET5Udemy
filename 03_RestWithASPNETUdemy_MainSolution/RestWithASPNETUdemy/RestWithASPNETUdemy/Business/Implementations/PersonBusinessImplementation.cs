@@ -9,12 +9,12 @@ namespace RestWithASPNETUdemy.Business.Implementations
 {
     public class PersonBusinessImplementation : IPersonBusiness
     {
-        private readonly IRepository<Person> _repository;
+        private readonly IPersonRepository _repository;
         //private readonly IParser<PersonVO, Person> _converterVO;
         //private readonly IParser<Person, PersonVO> _converterPerson;
         private readonly PersonConverter _converter;
 
-        public PersonBusinessImplementation(IRepository<Person> repository/*, IParser<PersonVO, Person> converterVO, IParser<Person, PersonVO> converterPerson*/)
+        public PersonBusinessImplementation(IPersonRepository repository/*, IParser<PersonVO, Person> converterVO, IParser<Person, PersonVO> converterPerson*/)
         {
             _repository = repository;
             /*_converterVO = converterVO;
@@ -49,9 +49,15 @@ namespace RestWithASPNETUdemy.Business.Implementations
             return _converter.Parse(personEntity);
         }
 
+        public PersonVO Disable(long id)
+        {
+            var personEntity = _repository.Disable(id);
+            return _converter.Parse(personEntity);
+        }
+
         public void Delete(long id)
         {
             _repository.Delete(id);
-        }
+        }  
     }
 }

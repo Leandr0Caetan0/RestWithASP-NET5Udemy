@@ -108,6 +108,7 @@ namespace RestWithASPNETUdemy
             //Injeção de Dependencia - Repositórios
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             // Content Negociation
             /*services.AddMvc(options =>
