@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace RestWithASPNETUdemy
 {
@@ -96,6 +97,8 @@ namespace RestWithASPNETUdemy
             }
 
             //Injeção de Dependencia
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BooksBusinessImplementation>();
             /*services.AddScoped<IParser<BooksVO, Books>, BooksConverter>();
@@ -103,12 +106,14 @@ namespace RestWithASPNETUdemy
             services.AddScoped<IParser<PersonVO, Person>, PersonConverter>();
             services.AddScoped<IParser<Person, PersonVO>, PersonConverter>();*/
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
+
             services.AddTransient<ITokenService, TokenService>();
 
-            //Injeção de Dependencia - Repositórios
-            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
             // Content Negociation
             /*services.AddMvc(options =>
