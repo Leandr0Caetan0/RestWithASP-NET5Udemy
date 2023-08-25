@@ -91,10 +91,10 @@ namespace RestWithASPNETUdemy
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
             // Migrations
-            if (Environment.IsDevelopment())
-            {
-                MigrationDatabase(connection);
-            }
+            //if (Environment.IsDevelopment())
+            //{
+            //    MigrationDatabase(connection);
+            //}
 
             //Injeção de Dependencia
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -108,7 +108,7 @@ namespace RestWithASPNETUdemy
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
             services.AddScoped<IFileBusiness, FileBusinessImplementation>();
 
-            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<ITokenService, TokenServiceImplementation>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();

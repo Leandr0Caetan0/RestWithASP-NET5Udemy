@@ -9,10 +9,10 @@ using System.Text;
 
 namespace RestWithASPNETUdemy.Services.Implementations
 {
-    public class TokenService : ITokenService
+    public class TokenServiceImplementation : ITokenService
     {
         private TokenConfiguration _configuration;
-        public TokenService(TokenConfiguration tokenConfiguration) 
+        public TokenServiceImplementation(TokenConfiguration tokenConfiguration) 
         {
             _configuration = tokenConfiguration;
         }
