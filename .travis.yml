@@ -2,10 +2,10 @@ sudo: required
 dist: bionic
 language: csharp
 mono: none
-dotnet:5.0
+dotnet: 5.0
 services: docker
 before_install:
-  - cd 03_RestWithASPNETUdemy_MainSolution/
+  - cd 03_RestWithASPNETUdemy_MainSolution/RestWithASPNETUdemy
   - echo "Tamo na pasta certa! - We are in the right folder!"
 script:
   - docker-compose build
