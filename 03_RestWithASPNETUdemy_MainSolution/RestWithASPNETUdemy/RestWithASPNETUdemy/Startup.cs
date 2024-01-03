@@ -91,10 +91,10 @@ namespace RestWithASPNETUdemy
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
             // Migrations
-            if (Environment.IsDevelopment())
-            {
-                MigrationDatabase(connection);
-            }
+            //if (Environment.IsDevelopment())
+            //{
+            //    MigrationDatabase(connection);
+            //}
 
             //Injeção de Dependencia
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
