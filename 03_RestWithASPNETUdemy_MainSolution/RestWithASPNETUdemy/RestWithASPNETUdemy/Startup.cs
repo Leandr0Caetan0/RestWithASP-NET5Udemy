@@ -37,7 +37,7 @@ namespace RestWithASPNETUdemy
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; } // DECLARA«√O DE WEBHOSTENVIRONMENT PARA fornecer informaÁıes sobre o ambiente de host da Web em que um aplicativo est· sendo executado
+        public IWebHostEnvironment Environment { get; } // DECLARA√á√ÉO DE WEBHOSTENVIRONMENT PARA fornecer informa√ß√µes sobre o ambiente de host da Web em que um aplicativo est√° sendo executado
 
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
@@ -86,7 +86,7 @@ namespace RestWithASPNETUdemy
             }));
             services.AddControllers();
 
-            // PARA CONEX√O COM BANCO DE DADOS
+            // PARA CONEX√ÉO COM BANCO DE DADOS
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
@@ -96,7 +96,7 @@ namespace RestWithASPNETUdemy
             //    MigrationDatabase(connection);
             //}
 
-            //InjeÁ„o de Dependencia
+            //Inje√ß√£o de Dependencia
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
@@ -138,7 +138,7 @@ namespace RestWithASPNETUdemy
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "REST API's From 0 to Azure with ASP.NET Core 5 and Docker",
+                        Title = "REST API's From 0 to Azure with ASP.NET Core 5 and Docker - Foo Bar",
                         Version = "v1",
                         Description = "API RESTful developed in course 'REST API's From 0 to Azure with ASP.NET Core 5 and Docker'",
                         Contact = new OpenApiContact
@@ -166,7 +166,7 @@ namespace RestWithASPNETUdemy
             app.UseCors();
 
             // SWAGGER
-            app.UseSwagger(); // Gera o json com a documentaÁ„O.
+            app.UseSwagger(); // Gera o json com a documenta√ß√£O.
             app.UseSwaggerUI(c => // Gera uma pagina HTML para leitura.
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
