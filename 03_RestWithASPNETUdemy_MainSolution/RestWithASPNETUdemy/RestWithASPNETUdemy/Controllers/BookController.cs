@@ -35,6 +35,7 @@ namespace RestWithASPNETUdemy.Controllers
         {
             return Ok(_bookBusiness.FindAll());
         }*/
+		//teste git
         public IActionResult Get([FromQuery] string title, string sortDirection, int pageSize, int page)
         {
             return Ok(_bookBusiness.FindWithPagedSearch(title, sortDirection, pageSize, page));

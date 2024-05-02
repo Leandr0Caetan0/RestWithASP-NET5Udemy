@@ -31,6 +31,7 @@ namespace RestWithASPNETUdemy.Business.Implementations
 
         public PagedSearchVO<BookVO> FindWithPagedSearch(string title, string sortDirection, int pageSize, int page)
         {
+			//teste git
             var sort = (!string.IsNullOrWhiteSpace(sortDirection)) && !sortDirection.Equals("desc") ? "asc" : "desc";
             var size = (pageSize < 1) ? 10 : pageSize;
             var offset = page > 0 ? (page - 1) * size : 0;
