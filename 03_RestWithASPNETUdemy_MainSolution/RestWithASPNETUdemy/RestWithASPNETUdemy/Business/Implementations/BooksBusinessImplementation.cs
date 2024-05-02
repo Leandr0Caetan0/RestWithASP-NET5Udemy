@@ -1,6 +1,7 @@
 ﻿using RestWithASPNETUdemy.Data.Converter.Contract;
 using RestWithASPNETUdemy.Data.Converter.Implementations;
 using RestWithASPNETUdemy.Data.VO;
+using RestWithASPNETUdemy.Hypermedia.Utils;
 using RestWithASPNETUdemy.Model;
 using RestWithASPNETUdemy.Repository;
 using System.Collections.Generic;
@@ -26,6 +27,32 @@ namespace RestWithASPNETUdemy.Business.Implementations
         {
             var booksEntity = _repository.FindAll(); // Vai ao repositório com entidade Books e lista todos os livros, depois joga na variável booksEntity
             return _converter.Parse(booksEntity); // chama o método Parse do BooksConverter para converter o Books em BooksVO, uma lista de livros e retorna o valor
+        }
+
+        public PagedSearchVO<BookVO> FindWithPagedSearch(string title, string sortDirection, int pageSize, int page)
+        {
+            var sort = (!string.IsNullOrWhiteSpace(sortDirection)) && !sortDirection.Equals("desc") ? "asc" : "desc";
+            var size = (pageSize < 1) ? 10 : pageSize;
+            var offset = page > 0 ? (page - 1) * size : 0;
+
+            string query = @"SELECT * FROM books B WHERE 1 = 1";
+            if (!string.IsNullOrWhiteSpace(title)) query = query + $" AND B.title LIKE '%{title}%' ";
+            query += $" ORDER BY B.title {sort} limit {size} offset {offset}";
+
+            string countQuery = @"SELECT COUNT(*) FROM books B WHERE 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(title)) countQuery = countQuery + $" AND B.title LIKE '%{title}%' ";
+
+            var books = _repository.FindWithPagedSearch(query);
+            int totalResults = _repository.GetCount(countQuery);
+
+            return new PagedSearchVO<BookVO>
+            {
+                CurrentPage = page,
+                List = _converter.Parse(books),
+                PageSize = size,
+                SortDirections = sort,
+                TotalResults = totalResults
+            };
         }
 
         public BookVO FindByID(long id)
