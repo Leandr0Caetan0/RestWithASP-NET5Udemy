@@ -38,7 +38,7 @@ namespace RestWithASPNETUdemy.Business.Implementations
 
             string query = @"SELECT * FROM books B WHERE 1 = 1";
             if (!string.IsNullOrWhiteSpace(title)) query = query + $" AND B.title LIKE '%{title}%' ";
-            query += $" ORDER BY B.title {sort} limit {size} offset {offset}";
+            query += $" ORDER BY B.id {sort} limit {size} offset {offset}";
 
             string countQuery = @"SELECT COUNT(*) FROM books B WHERE 1 = 1 ";
             if (!string.IsNullOrWhiteSpace(title)) countQuery = countQuery + $" AND B.title LIKE '%{title}%' ";
